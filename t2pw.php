@@ -26,13 +26,36 @@ require_once T2PW_PLUGIN_DIR . 'includes/class-t2pw-settings.php';
 function t2pw_init()
 {
   T2PWidgets_Settings::init();
+
+  if (get_option(OPTION_NAME_MODE) === false) {
+    update_option(OPTION_NAME_MODE, 'test');
+  }
+  if (get_option(OPTION_NAME_STRIPE_PUBLISHABLE_KEY) === false) {
+    update_option(OPTION_NAME_STRIPE_PUBLISHABLE_KEY, 'PUBLISHABLE_KEY');
+  }
+  if (get_option(OPTION_NAME_FETCH_URL) === false) {
+    update_option(OPTION_NAME_FETCH_URL, 'https://api.justbestow.com/widget/form');
+  }
+  if (get_option(OPTION_NAME_STRIPE_OAUTH_URL) === false) {
+    update_option(OPTION_NAME_STRIPE_OAUTH_URL, 'https://api.justbestow.com/t2pw/connect');
+  }
+}
+
+
+add_action('plugins_loaded', 't2pw_init');
+
+
+
+register_activation_hook(__FILE__, 't2pw_activate_defaults');
+function t2pw_activate_defaults()
+{
+  add_option(OPTION_NAME_MODE, 'test');
   add_option(OPTION_NAME_STRIPE_ACCOUNT, '');
   add_option(OPTION_NAME_STRIPE_PUBLISHABLE_KEY, 'PUBLISHABLE_KEY');
   add_option(OPTION_NAME_FETCH_URL, 'https://api.justbestow.com/widget/form');
   add_option(OPTION_NAME_STRIPE_OAUTH_URL, 'https://api.justbestow.com/t2pw/connect');
 }
 
-add_action('plugins_loaded', 't2pw_init');
 
 
 /* Blocks */
