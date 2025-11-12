@@ -1,11 +1,13 @@
-=== JustBestow Widget ===
+=== Just Bestow ===
 Contributors: ayatsolutions
 Tags: donations, stripe, widget
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.8
 Stable tag: 1.0.0
 License: GPLv2 or later
-License URI: <https://www.gnu.org/licenses/gpl-2.0.html>
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Short Description: Displays a Stripe-powered donation widget on your site via the block editor.
 
 == Description ==
 JustBestow displays a donation widget on your site. Add it via the block editor.

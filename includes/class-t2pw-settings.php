@@ -96,7 +96,7 @@ class T2PWidgets_Settings
       'Client Email',
       function () {
         $value = esc_attr(get_option(OPTION_NAME_CLIENT_EMAIL, ''));
-        echo '<input type="text" value="' . $value . '" class="regular-text" readonly />';
+        echo '<input type="text" value="' . esc_attr($value) . '" class="regular-text" readonly />';
       },
       't2pw-settings',
       't2pw_main_section'
@@ -107,7 +107,7 @@ class T2PWidgets_Settings
       'Client Name',
       function () {
         $value = esc_attr(get_option(OPTION_NAME_CLIENT_NAME, ''));
-        echo '<input type="text" value="' . $value . '" class="regular-text" readonly />';
+        echo '<input type="text" value="' . esc_attr($value) . '" class="regular-text" readonly />';
       },
       't2pw-settings',
       't2pw_main_section'
@@ -118,9 +118,9 @@ class T2PWidgets_Settings
   {
     $value = esc_attr(get_option(OPTION_NAME_MODE, 'test'));
 ?>
-    <select name="<?php echo OPTION_NAME_MODE; ?>">
-      <option value="test" <?php selected($value, 'test'); ?>>Test</option>
-      <option value="live" <?php selected($value, 'live'); ?>>Live</option>
+    <select name="<?php echo esc_attr(OPTION_NAME_MODE); ?>">
+      <option value="test" <?php esc_attr(selected($value, 'test')); ?>>Test</option>
+      <option value="live" <?php esc_attr(selected($value, 'live')); ?>>Live</option>
     </select>
   <?php
   }
@@ -128,25 +128,25 @@ class T2PWidgets_Settings
   public static function render_fetch_url_field()
   {
     $value = esc_attr(get_option(OPTION_NAME_FETCH_URL, ''));
-    echo '<input type="text" name="' . OPTION_NAME_FETCH_URL . '" value="' . $value . '" class="regular-text" />';
+    echo '<input type="text" name="' . esc_attr(OPTION_NAME_FETCH_URL) . '" value="' . esc_attr($value) . '" class="regular-text" />';
   }
 
   public static function render_stripe_oauth_url_field()
   {
     $value = esc_attr(get_option(OPTION_NAME_STRIPE_OAUTH_URL, '', "https://api.justbestow.com/t2pw/connect"));
-    echo '<input type="text" name="' . OPTION_NAME_STRIPE_OAUTH_URL . '" value="' . $value . '" class="regular-text" />';
+    echo '<input type="text" name="' . esc_attr(OPTION_NAME_STRIPE_OAUTH_URL) . '" value="' . esc_attr($value) . '" class="regular-text" />';
   }
 
   public static function render_stripe_account_field()
   {
     $value = esc_attr(get_option(OPTION_NAME_STRIPE_ACCOUNT, ''));
-    echo '<input type="text" name="' . OPTION_NAME_STRIPE_ACCOUNT . '" value="' . $value . '" class="regular-text" readonly/>';
+    echo '<input type="text" name="' . esc_attr(OPTION_NAME_STRIPE_ACCOUNT) . '" value="' . esc_attr($value) . '" class="regular-text" readonly/>';
   }
 
   public static function render_stripe_publishable_key_field()
   {
     $value = esc_attr(get_option(OPTION_NAME_STRIPE_PUBLISHABLE_KEY, ''));
-    echo '<input type="text" name="' . OPTION_NAME_STRIPE_PUBLISHABLE_KEY . '" value="' . $value . '" class="regular-text" readonly/>';
+    echo '<input type="text" name="' . esc_attr(OPTION_NAME_STRIPE_PUBLISHABLE_KEY) . '" value="' . esc_attr($value) . '" class="regular-text" readonly/>';
   }
 
 
