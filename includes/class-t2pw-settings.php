@@ -34,13 +34,13 @@ class T2PWidgets_Settings
 
   public static function register_settings()
   {
-    register_setting('t2pw_settings_group', OPTION_NAME_MODE);
-    register_setting('t2pw_settings_group', OPTION_NAME_FETCH_URL);
-    register_setting('t2pw_settings_group', OPTION_NAME_CLIENT_NAME);
-    register_setting('t2pw_settings_group', OPTION_NAME_CLIENT_EMAIL);
-    register_setting('t2pw_settings_group', OPTION_NAME_STRIPE_ACCOUNT);
-    register_setting('t2pw_settings_group', OPTION_NAME_STRIPE_OAUTH_URL);
-    register_setting('t2pw_settings_group', OPTION_NAME_STRIPE_PUBLISHABLE_KEY);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_MODE));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_FETCH_URL));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_CLIENT_NAME));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_CLIENT_EMAIL));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_ACCOUNT));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_OAUTH_URL));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_PUBLISHABLE_KEY));
 
 
     add_settings_field(
