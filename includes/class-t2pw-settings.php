@@ -122,7 +122,7 @@ class T2PWidgets_Settings
       <option value="test" <?php selected($value, 'test'); ?>>Test</option>
       <option value="live" <?php selected($value, 'live'); ?>>Live</option>
     </select>
-  <?php
+    <?php
   }
 
   public static function render_fetch_url_field()
@@ -155,6 +155,8 @@ class T2PWidgets_Settings
     if (isset($_GET['_stripe_account_id'])) {
       $incoming_account_id = sanitize_text_field($_GET['_stripe_account_id']);
       update_option(OPTION_NAME_STRIPE_ACCOUNT, $incoming_account_id);
+      /* one time message */
+      update_option('t2pw_show_success_notice', true);
     }
 
     if (isset($_GET['_client_email'])) {
@@ -191,9 +193,24 @@ class T2PWidgets_Settings
       $mode = get_option(OPTION_NAME_MODE);
     }
 
+    if (get_option('t2pw_show_success_notice')) {
+    ?>
+      <div class="notice notice-success is-dismissible">
+        <p>
+          <strong>Your Stripe account has been successfully connected!</strong><br>
+          Please check your email for further instructions on adding campaigns.
+          If you haven’t received an email, please contact
+          <a href="mailto:info@ayatsolutions.com">info@ayatsolutions.com</a>
+          or visit our <a href="https://ayatsolutions.com/contact-us" target="_blank">contact page</a>.
+        </p>
+      </div>
+    <?php
+      /* remove the flag so message is hidden*/
+      delete_option('t2pw_show_success_notice');
+    }
 
 
-  ?>
+    ?>
     <script>
       (function() {
         const url = new URL(window.location.href);
@@ -226,12 +243,9 @@ class T2PWidgets_Settings
           data-stripe-url="<?php echo esc_attr($clean_stripe_url); ?>">Connect with Stripe</button>
       </p>
 
-
-
-
-
     </div>
     <section>
+
 
       <style>
         .container * {
