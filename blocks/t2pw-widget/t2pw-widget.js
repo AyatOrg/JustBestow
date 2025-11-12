@@ -2,37 +2,32 @@
   const el = element.createElement;
   const RichText = blockEditor.RichText;
 
-  blocks.registerBlockType('t2pw/example-block', {
-    title: 'Tap2Pay',
-    icon: 'block-default',
-    category: 'widgets',
-    attributes: {
-      title: {
-        type: 'string',
-        default: 'Tap2Pay',
-      },
-    },
+  blocks.registerBlockType("t2pw/example-block", {
+    title: "Just Bestow Widget",
+    icon: "block-default",
+    category: "widgets",
+    attributes: { title: { type: "string", default: "JustBestowWidget" } },
     edit: function (props) {
       return el(
-        'div',
-        { className: 't2pw-widget' },
+        "div",
+        { className: "t2pw-widget" },
         el(RichText, {
-          tagName: 'h3',
+          tagName: "h3",
           value: props.attributes.title,
           onChange: function (value) {
             props.setAttributes({ title: value });
           },
-          placeholder: 'Enter title...',
+          placeholder: "Enter title...",
         }),
-        el('p', {}, 'Tap2Pay Widget'),
+        el("p", {}, "Just Bestow Widget")
       );
     },
     save: function (props) {
       return el(
-        'div',
-        { className: 't2pw-widget' },
+        "div",
+        { className: "t2pw-widget" },
 
-        el('script', {
+        el("script", {
           dangerouslySetInnerHTML: {
             __html: `
 (function () {
@@ -109,7 +104,7 @@
 })();
 `,
           },
-        }),
+        })
       );
     },
   });
