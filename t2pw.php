@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name: JustBestow Widget
+ * Plugin Name: Just Bestow
  * Plugin URI:  https://ayatsolutions.com/justbestow
  * Description: Display JustBestow donation widget on your WordPress site. Adds a block and a simple shortcode.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Ayat Solutions 
  * Text Domain: justbestow-widget
  * Domain Path: /languages

@@ -22,8 +22,8 @@ class T2PWidgets_Settings
   public static function add_menu_page()
   {
     add_menu_page(
-      'JB Widget Settings',
-      'JB Widget',
+      'Just Bestow',
+      'Just Bestow',
       'manage_options',
       't2pw-settings',
       [__CLASS__, 'render_settings_page'],
@@ -540,7 +540,7 @@ class T2PWidgets_Settings
       <section>
         <div class="container">
           <section class="header-section">
-            <h1>JustBestow Widget Settings</h1>
+            <h1>Just Bestow Settings</h1>
 
             <?php
             $stripe_account = get_option(OPTION_NAME_STRIPE_ACCOUNT, '');
@@ -609,7 +609,7 @@ class T2PWidgets_Settings
                   </button>
 
                   <button class="connect-btn" id="connect-profit-btn" style="background:#4CAF50;">
-                    Connect as Profit
+                    Connect as Business
                   </button>
                 <?php endif; ?>
 
