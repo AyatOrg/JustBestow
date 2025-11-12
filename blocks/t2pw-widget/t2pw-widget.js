@@ -65,7 +65,7 @@
       if (err.name === 'TypeError' && err.message.indexOf('Failed to fetch') !== -1) {
         showWidgetError('You are not allowed to use this feature. Please contact support.');
       } else {
-        showWidgetError('You are not allowed to use this feature. Please contact support.');
+        showWidgetError('You are not allowed to use this feature. Please contact support@ayatsolutions.com.');
       }
     });
 
