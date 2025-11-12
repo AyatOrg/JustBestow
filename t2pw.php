@@ -4,12 +4,14 @@
  * Plugin Name: Just Bestow
  * Plugin URI:  https://ayatsolutions.com/justbestow
  * Description: Display JustBestow donation widget on your WordPress site. Adds a block and a simple shortcode.
- * Version:     1.0.2
- * Author:      Ayat Solutions 
- * Text Domain: justbestow-widget
- * Domain Path: /languages
- *
+ * Version:     1.0.0
+ * Author:      Ayat Solutions
+ * Author URI:  https://ayatsolutions.com
+ * Text Domain: justbestow
+ * License:     GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
+
 
 defined('ABSPATH') || exit;
 
@@ -67,8 +69,10 @@ function t2pw_register_widget_block()
     't2pw-widget-block',
     plugins_url('blocks/t2pw-widget/t2pw-widget.js', __FILE__),
     ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-editor', 'wp-components', 'wp-server-side-render'],
-    filemtime(plugin_dir_path(__FILE__) . 'blocks/t2pw-widget/t2pw-widget.js')
+    filemtime(plugin_dir_path(__FILE__) . 'blocks/t2pw-widget/t2pw-widget.js'),
+    false
   );
+
 
   register_block_type('t2pw/widget-example', [
     'editor_script' => 't2pw-widget-block',

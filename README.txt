@@ -8,13 +8,14 @@ License: GPLv2 or later
 License URI: <https://www.gnu.org/licenses/gpl-2.0.html>
 
 == Description ==
-JustBestow Widget displays a donation widget on your site. Add it via the block editor or shortcode [justbestow_widget].
+JustBestow displays a donation widget on your site. Add it via the block editor.
 
 == Installation ==
 
-1. Upload the `justbestow-widget` folder to the `/wp-content/plugins/` directory.
+1. Upload the `justbestow` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Visit JustBestow settings to configure the Fetch URL and Stripe OAuth URL.
+3. Visit JustBestow settings to configure stripe account.
+4. Add the Just Bestow Donation Form on your posts using block editor.
 
 == Changelog ==
 = 1.0.0 =
