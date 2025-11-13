@@ -34,13 +34,13 @@ class T2PWidgets_Settings
 
   public static function register_settings()
   {
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_MODE));
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_FETCH_URL));
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_CLIENT_NAME));
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_CLIENT_EMAIL));
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_ACCOUNT));
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_OAUTH_URL));
-    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_PUBLISHABLE_KEY));
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_MODE), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_FETCH_URL), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_CLIENT_NAME), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_CLIENT_EMAIL), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_ACCOUNT), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_OAUTH_URL), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('t2pw_settings_group', esc_attr(OPTION_NAME_STRIPE_PUBLISHABLE_KEY), ['sanitize_callback' => 'sanitize_text_field',]);
 
 
     add_settings_field(
@@ -153,47 +153,53 @@ class T2PWidgets_Settings
   public static function render_settings_page()
   {
     if (isset($_GET['_stripe_account_id'])) {
-      $incoming_account_id = sanitize_text_field($_GET['_stripe_account_id']);
+      $incoming_account_id = sanitize_text_field(wp_unslash($_GET['_stripe_account_id']));
       update_option(OPTION_NAME_STRIPE_ACCOUNT, $incoming_account_id);
-      update_option("t2pw_show_success_notice", true);
+      update_option('t2pw_show_success_notice', true);
     } else {
-      update_option("t2pw_show_success_notice", false);
+      update_option('t2pw_show_success_notice', false);
     }
 
     if (isset($_GET['_client_email'])) {
-      $incoming_email = sanitize_email($_GET['_client_email']);
+      $incoming_email = sanitize_email(wp_unslash($_GET['_client_email']));
       update_option(OPTION_NAME_CLIENT_EMAIL, $incoming_email);
     }
 
     if (isset($_GET['_client_name'])) {
-      $incoming_name = sanitize_text_field($_GET['_client_name']);
+      $incoming_name = sanitize_text_field(wp_unslash($_GET['_client_name']));
       update_option(OPTION_NAME_CLIENT_NAME, $incoming_name);
     }
 
     if (isset($_GET['_client_type'])) {
-      $incoming_type = sanitize_text_field($_GET['_client_type']);
+      $incoming_type = sanitize_text_field(wp_unslash($_GET['_client_type']));
       update_option(OPTION_NAME_CLIENT_TYPE, $incoming_type);
     }
 
-
-
     $stripe_oauth_url = trim(get_option(OPTION_NAME_STRIPE_OAUTH_URL, ''));
     $mode = get_option(OPTION_NAME_MODE);
-    $is_enabled = !empty($stripe_oauth_url);
+    $is_enabled = ! empty($stripe_oauth_url);
 
     $clean_stripe_url = ltrim($stripe_oauth_url, '/');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['disconnect_stripe']) && wp_verify_nonce($_POST['_wpnonce'], 'disconnect_stripe_account')) {
+    if (
+      isset($_SERVER['REQUEST_METHOD'], $_POST['_wpnonce']) &&
+      'POST' === $_SERVER['REQUEST_METHOD'] &&
+      isset($_POST['disconnect_stripe']) &&
+      wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'disconnect_stripe_account')
+    ) {
       delete_option(OPTION_NAME_STRIPE_ACCOUNT);
       delete_option(OPTION_NAME_CLIENT_TYPE);
       echo '<div class="notice notice-success is-dismissible"><p>Stripe account disconnected successfully.</p></div>';
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mode']) && wp_verify_nonce($_POST['_wpnonce'], 'change_mode')) {
-      update_option(OPTION_NAME_MODE, $_POST['mode']);
+    if (
+      isset($_SERVER['REQUEST_METHOD'], $_POST['_wpnonce'], $_POST['mode']) &&
+      'POST' === $_SERVER['REQUEST_METHOD'] &&
+      wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'change_mode')
+    ) {
+      update_option(OPTION_NAME_MODE, sanitize_text_field(wp_unslash($_POST['mode'])));
       $mode = get_option(OPTION_NAME_MODE);
     }
-
 
 
   ?>
