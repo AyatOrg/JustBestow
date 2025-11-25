@@ -66,6 +66,30 @@ function just_bestow_activate_defaults()
 }
 
 
+/* register our block. */
+function just_bestow_register_block()
+{
+
+  wp_register_script(
+    'jb-block-editor-script',
+    plugins_url('blocks/just-bestow/just-bestow.js', __FILE__),
+    ['wp-blocks', 'wp-element', 'wp-editor', 'wp-i18n'],
+    filemtime(plugin_dir_path(__FILE__) . 'blocks/just-bestow/just-bestow.js')
+  );
+
+  register_block_type('just-bestow/example-block', [
+    'editor_script' => 'jb-block-editor-script',
+    'render_callback' => 'just_bestow_render_block',
+    'attributes' => [
+      'title' => [
+        'type'    => 'string',
+        'default' => 'Just Bestow',
+      ],
+    ],
+  ]);
+}
+add_action('init', 'just_bestow_register_block');
+
 
 /** We add the fetch url so we can access that in the frontend */
 add_action('wp_head', function () {
@@ -80,3 +104,4 @@ add_action('wp_head', function () {
   </script>
 <?php
 });
+
