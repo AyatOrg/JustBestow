@@ -35,13 +35,13 @@
 
   if (!container) {
     console.error('Container element not found.');
-    showWidgetError('Something went wrong. Please refresh or try again later.');
+    showWidgetError('Oops! Something went wrong. Please try refreshing the page. If the problem continues, feel free to reach out to us at support@ayatsolutions.com for assistance.');
     return;
   }
 
   if (!window.t2pw_settings || !t2pw_settings.fetchUrl) {
     console.error('Missing fetchUrl in t2pw_settings.');
-    showWidgetError('Configuration error: fetch URL is missing.');
+    showWidgetError('Please configure the Just Bestow plugin correctly. If the issue persists, try reinstalling the plugin. For further assistance, contact us at support@ayatsolutions.com.');
     return;
   }
 
