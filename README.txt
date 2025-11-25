@@ -1,4 +1,4 @@
-=== Just Bestow - Donation Plugin by Ayat Solutions ===
+=== Just Bestow ===
 Contributors: ayatsolutions
 Tags: donations, stripe
 Requires at least: 5.0
@@ -27,3 +27,4 @@ You can easily display your donation form anywhere on your site using the WordPr
 = 1.0.0 =
 
 * Initial release
+
