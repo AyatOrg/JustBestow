@@ -1,0 +1,357 @@
+.container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container > * {
+  margin: 10px;
+}
+
+.header-section {
+  background: white;
+  padding: 20px;
+
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-section h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.add-account-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.stripe-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #6772e5;
+  font-weight: 500;
+}
+
+.stripe-logo::before {
+  content: 'S';
+  width: 32px;
+  height: 32px;
+  background: #6772e5;
+  color: white;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.connect-btn {
+  background: #6772e5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.connect-btn::before {
+  content: 'S';
+  font-weight: bold;
+}
+
+.connect-btn:hover {
+  background: #5a67d8;
+}
+
+/* Disconnect button styles */
+.disconnect-main-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.disconnect-main-btn::before {
+  content: '⚠';
+  font-weight: bold;
+}
+
+.disconnect-main-btn:hover {
+  background: #c82333;
+}
+
+.connected-accounts {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Blur effect when not connected */
+.blurred-content {
+  filter: blur(3px);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.blur-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.blur-message {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 300px;
+}
+
+.blur-message h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.blur-message p {
+  color: #666;
+  font-size: 14px;
+}
+
+.section-title {
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.account-card {
+  padding: 20px;
+  border: 2px solid #28a745;
+  border-radius: 6px;
+  margin: 20px;
+  background: #f8fff9;
+  position: relative;
+}
+
+.account-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.account-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  background: #28a745;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+
+.checkmark::after {
+  content: '✓';
+}
+
+.account-details {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: #333;
+}
+
+.statement-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #6772e5;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.status-connected {
+  background: #28a745;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.disconnect-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.default-account {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  background: white;
+}
+
+.info-icon {
+  width: 16px;
+  height: 16px;
+  background: #ccc;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: white;
+  margin-left: 4px;
+}
+
+.info-icon::after {
+  content: '?';
+}
+
+/* Hidden class */
+.hidden {
+  display: none;
+}
+
+.connection-feedback {
+  background: #e6ffed;
+  border-left: 4px solid #28a745;
+  color: #155724;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.connection-feedback strong {
+  font-size: 16px;
+}
+
+.connection-feedback a {
+  color: #155724;
+  text-decoration: underline;
+}
+
+.connection-feedback a:hover {
+  text-decoration: none;
+}
+.forms-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.test-mode-btn,
+.live-mode-btn {
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.test-mode-btn {
+  background: #17a2b8;
+  /* Info blue */
+}
+
+.test-mode-btn:hover {
+  background: #138496;
+}
+
+.live-mode-btn {
+  background: #ffc107;
+  /* Warning yellow */
+  color: #212529;
+}
+
+.live-mode-btn:hover {
+  background: #e0a800;
+}

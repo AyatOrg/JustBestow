@@ -2,7 +2,7 @@
   const el = element.createElement;
   const RichText = blockEditor.RichText;
 
-  blocks.registerBlockType('t2pw/example-block', {
+  blocks.registerBlockType('just-bestow/example-block', {
     title: 'Just Bestow',
     icon: 'block-default',
     category: 'widgets',
