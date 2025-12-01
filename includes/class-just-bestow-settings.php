@@ -122,6 +122,30 @@ class Just_Bestow_Settings
         '1.0.0',
         true
       );
+
+      /* The inline script is used to construct the stripe oauth url. */
+      wp_register_script(
+        'just-bestow-inline-script',
+        plugin_dir_url(__FILE__) . 'js/just-bestow-settings.js',
+        ['jquery'],
+        '1.0.0',
+        true
+      );
+
+      $stripe_oauth_url = trim(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL, ''));
+      $mode = get_option(JUST_BESTOW_OPTION_NAME_MODE);
+      $clean_stripe_url = ltrim($stripe_oauth_url, '/');
+
+      wp_localize_script(
+        'just-bestow-inline-script',
+        'JB_STRIPE_VARS',
+        [
+          'stripe_url' => $clean_stripe_url,
+          'mode'       => $mode
+        ]
+      );
+
+      wp_enqueue_script('just-bestow-inline-script');
     }
   }
 
@@ -305,9 +329,6 @@ class Just_Bestow_Settings
 
 
           </section>
-
-
-
           <section class="connected-accounts" id="accounts-section">
             <h2 class="section-title">Connected Accounts</h2>
             <?php if (!$stripe_connected): ?>
@@ -365,37 +386,6 @@ class Just_Bestow_Settings
           </section>
         </div>
       </section>
-      <script>
-        /* this methods is required to be here as this one depends on some of the php code. */
-        (function() {
-          function base64Encode(str) {
-            return btoa(unescape(encodeURIComponent(str)))
-              .replace(/\+/g, '-')
-              .replace(/\//g, '_')
-              .replace(/=+$/, '');
-          }
-
-          function redirectToStripe(type) {
-            const baseUrl = "<?php echo esc_js($clean_stripe_url); ?>";
-            if (!baseUrl) return alert("Stripe OAuth URL missing");
-
-            const ru = base64Encode(window.location.href);
-            const m = base64Encode("<?php echo esc_js($mode); ?>");
-            const t = base64Encode(type);
-
-            const sep = baseUrl.includes("?") ? "&" : "?";
-            const finalUrl = `${baseUrl}${sep}_ru=${ru}&_m=${m}&_t=${t}`;
-
-            window.location.href = finalUrl;
-          }
-
-          const nonProfitBtn = document.getElementById("connect-nonprofit-btn");
-          const profitBtn = document.getElementById("connect-profit-btn");
-
-          if (nonProfitBtn) nonProfitBtn.addEventListener("click", () => redirectToStripe("non-profit"));
-          if (profitBtn) profitBtn.addEventListener("click", () => redirectToStripe("profit"));
-        })();
-      </script>
     </section>
 <?php
   }
