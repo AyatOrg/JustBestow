@@ -141,7 +141,8 @@ class Just_Bestow_Settings
         'JB_STRIPE_VARS',
         [
           'stripe_url' => $clean_stripe_url,
-          'mode'       => $mode
+          'mode'       => $mode,
+          'nonce'      => wp_create_nonce('jb_stripe_oauth_redirect'),
         ]
       );
 
@@ -188,28 +189,41 @@ class Just_Bestow_Settings
 
   public static function render_settings_page()
   {
-    if (isset($_GET['_stripe_account_id'])) {
-      $incoming_account_id = sanitize_text_field(wp_unslash($_GET['_stripe_account_id']));
-      update_option(JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT, $incoming_account_id);
+    if (
+      isset($_GET['_wpnonce']) &&
+      wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['_wpnonce'])), 'jb_stripe_oauth_redirect') &&
+      current_user_can('manage_options') &&
+      isset($_GET['_stripe_account_id'])
+    ) {
+      update_option(
+        JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT,
+        sanitize_text_field(wp_unslash($_GET['_stripe_account_id']))
+      );
+
+      if (isset($_GET['_client_email'])) {
+        update_option(
+          JUST_BESTOW_OPTION_NAME_CLIENT_EMAIL,
+          sanitize_email(wp_unslash($_GET['_client_email']))
+        );
+      }
+
+      if (isset($_GET['_client_name'])) {
+        update_option(
+          JUST_BESTOW_OPTION_NAME_CLIENT_NAME,
+          sanitize_text_field(wp_unslash($_GET['_client_name']))
+        );
+      }
+
+      if (isset($_GET['_client_type'])) {
+        update_option(
+          JUST_BESTOW_OPTION_NAME_CLIENT_TYPE,
+          sanitize_text_field(wp_unslash($_GET['_client_type']))
+        );
+      }
+
       update_option('just_bestow_show_success_notice', true);
-    } else {
-      update_option('just_bestow_show_success_notice', false);
     }
 
-    if (isset($_GET['_client_email'])) {
-      $incoming_email = sanitize_email(wp_unslash($_GET['_client_email']));
-      update_option(JUST_BESTOW_OPTION_NAME_CLIENT_EMAIL, $incoming_email);
-    }
-
-    if (isset($_GET['_client_name'])) {
-      $incoming_name = sanitize_text_field(wp_unslash($_GET['_client_name']));
-      update_option(JUST_BESTOW_OPTION_NAME_CLIENT_NAME, $incoming_name);
-    }
-
-    if (isset($_GET['_client_type'])) {
-      $incoming_type = sanitize_text_field(wp_unslash($_GET['_client_type']));
-      update_option(JUST_BESTOW_OPTION_NAME_CLIENT_TYPE, $incoming_type);
-    }
 
     $stripe_oauth_url = trim(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL, ''));
     $mode = get_option(JUST_BESTOW_OPTION_NAME_MODE);

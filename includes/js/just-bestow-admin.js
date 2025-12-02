@@ -4,12 +4,12 @@
  */
 (function () {
   const url = new URL(window.location.href);
-  ['_stripe_account_id', '_client_email', '_client_name'].forEach(param => {
-    if (url.searchParams.has(param)) {
-      url.searchParams.delete(param);
-    }
-  });
+  ['_stripe_account_id', '_client_email', '_client_name', '_wpnonce', '_client_types', '_client_type'].forEach(
+    param => {
+      if (url.searchParams.has(param)) {
+        url.searchParams.delete(param);
+      }
+    },
+  );
   window.history.replaceState({}, document.title, url.pathname + url.search);
 })();
-
-
