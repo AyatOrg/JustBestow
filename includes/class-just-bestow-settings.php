@@ -315,7 +315,7 @@ class Just_Bestow_Settings
                     Connect as Non-Profit
                   </button>
 
-                  <button class="connect-btn" id="connect-profit-btn" style="background:#4CAF50;">
+                  <button class="connect-btn" id="connect-profit-btn" style="background:#4CAF50;display:none;">
                     Connect as Business
                   </button>
                 <?php endif; ?>
