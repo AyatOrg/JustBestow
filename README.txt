@@ -18,7 +18,7 @@ You can easily display your donation form anywhere on your site using the WordPr
 
 == Installation ==
 
-1. Upload the `just-bestow` folder to the `/wp-content/plugins/` directory.
+1. Upload the `justbestow` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Visit JustBestow settings to configure stripe account.
 4. Add the Just Bestow Donation Form on your posts using block editor.

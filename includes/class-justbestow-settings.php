@@ -1,6 +1,6 @@
 <?php
 
-class Just_Bestow_Settings
+class Justbestow_Settings
 {
   public static function init()
   {
@@ -15,7 +15,7 @@ class Just_Bestow_Settings
       'Just Bestow',
       'Just Bestow',
       'manage_options',
-      'just-bestow-settings',
+      'justbestow-settings',
       [__CLASS__, 'render_settings_page'],
       'dashicons-heart',
       80
@@ -24,100 +24,100 @@ class Just_Bestow_Settings
 
   public static function register_settings()
   {
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_MODE), ['sanitize_callback' => 'sanitize_text_field',]);
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_FETCH_URL), ['sanitize_callback' => 'sanitize_text_field',]);
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_CLIENT_NAME), ['sanitize_callback' => 'sanitize_text_field',]);
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_CLIENT_EMAIL), ['sanitize_callback' => 'sanitize_text_field',]);
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT), ['sanitize_callback' => 'sanitize_text_field',]);
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL), ['sanitize_callback' => 'sanitize_text_field',]);
-    register_setting('just_bestow_settings_group', esc_attr(JUST_BESTOW_OPTION_NAME_STRIPE_PUBLISHABLE_KEY), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_MODE), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_FETCH_URL), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_CLIENT_NAME), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_CLIENT_EMAIL), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_STRIPE_ACCOUNT), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_STRIPE_OAUTH_URL), ['sanitize_callback' => 'sanitize_text_field',]);
+    register_setting('justbestow_settings_group', esc_attr(JUSTBESTOW_OPTION_NAME_STRIPE_PUBLISHABLE_KEY), ['sanitize_callback' => 'sanitize_text_field',]);
 
 
     add_settings_field(
-      'just_bestow_mode',
+      'justbestow_mode',
       'Mode',
       [__CLASS__, 'render_mode_field'],
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
 
     add_settings_field(
       'stripe_account',
       'Stripe Account ID',
       [__CLASS__, 'render_stripe_account_field'],
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
 
     add_settings_field(
       'stripe_publishable_key',
       'Stripe Publishable Key',
       [__CLASS__, 'render_stripe_publishable_key_field'],
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
 
 
     add_settings_section(
-      'just_bestow_main_section',
+      'justbestow_main_section',
       'Main Settings',
       null,
-      'just-bestow-settings'
+      'justbestow-settings'
     );
 
     add_settings_field(
       'fetch_url',
       'Fetch URL',
       [__CLASS__, 'render_fetch_url_field'],
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
 
     add_settings_field(
       'stripe_oauth_url',
       'Stripe OAuth URL',
       [__CLASS__, 'render_stripe_oauth_url_field'],
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
 
     add_settings_field(
       'client_email',
       'Client Email',
       function () {
-        $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_CLIENT_EMAIL, ''));
+        $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_CLIENT_EMAIL, ''));
         echo '<input type="text" value="' . esc_attr($value) . '" class="regular-text" readonly />';
       },
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
 
     add_settings_field(
       'client_name',
       'Client Name',
       function () {
-        $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_CLIENT_NAME, ''));
+        $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_CLIENT_NAME, ''));
         echo '<input type="text" value="' . esc_attr($value) . '" class="regular-text" readonly />';
       },
-      'just-bestow-settings',
-      'just_bestow_main_section'
+      'justbestow-settings',
+      'justbestow_main_section'
     );
   }
 
 
   public static function admin_enqueue_scripts($hook_suffix)
   {
-    if ($hook_suffix === 'toplevel_page_just-bestow-settings') {
+    if ($hook_suffix === 'toplevel_page_justbestow-settings') {
       wp_enqueue_style(
-        'just-bestow-admin-style',
-        plugin_dir_url(__FILE__) . 'css/just-bestow-admin.css',
+        'justbestow-admin-style',
+        plugin_dir_url(__FILE__) . 'css/justbestow-admin.css',
         [],
         '1.0.0'
       );
 
       wp_enqueue_script(
-        'just-bestow-admin-script',
-        plugin_dir_url(__FILE__) . 'js/just-bestow-admin.js',
+        'justbestow-admin-script',
+        plugin_dir_url(__FILE__) . 'js/justbestow-admin.js',
         ['jquery'],
         '1.0.0',
         true
@@ -125,20 +125,20 @@ class Just_Bestow_Settings
 
       /* The inline script is used to construct the stripe oauth url. */
       wp_register_script(
-        'just-bestow-inline-script',
-        plugin_dir_url(__FILE__) . 'js/just-bestow-settings.js',
+        'justbestow-inline-script',
+        plugin_dir_url(__FILE__) . 'js/justbestow-settings.js',
         ['jquery'],
         '1.0.0',
         true
       );
 
-      $stripe_oauth_url = trim(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL, ''));
-      $mode = get_option(JUST_BESTOW_OPTION_NAME_MODE);
+      $stripe_oauth_url = trim(get_option(JUSTBESTOW_OPTION_NAME_STRIPE_OAUTH_URL, ''));
+      $mode = get_option(JUSTBESTOW_OPTION_NAME_MODE);
       $clean_stripe_url = ltrim($stripe_oauth_url, '/');
 
       wp_localize_script(
-        'just-bestow-inline-script',
-        'JB_STRIPE_VARS',
+        'justbestow-inline-script',
+        'JUSTBESTOW_STRIPE_VARS',
         [
           'stripe_url' => $clean_stripe_url,
           'mode'       => $mode,
@@ -146,16 +146,16 @@ class Just_Bestow_Settings
         ]
       );
 
-      wp_enqueue_script('just-bestow-inline-script');
+      wp_enqueue_script('justbestow-inline-script');
     }
   }
 
 
   public static function render_mode_field()
   {
-    $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_MODE, 'test'));
+    $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_MODE, 'test'));
 ?>
-    <select name="<?php echo esc_attr(JUST_BESTOW_OPTION_NAME_MODE); ?>">
+    <select name="<?php echo esc_attr(JUSTBESTOW_OPTION_NAME_MODE); ?>">
       <option value="test" <?php esc_attr(selected($value, 'test')); ?>>Test</option>
       <option value="live" <?php esc_attr(selected($value, 'live')); ?>>Live</option>
     </select>
@@ -164,26 +164,26 @@ class Just_Bestow_Settings
 
   public static function render_fetch_url_field()
   {
-    $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_FETCH_URL, ''));
-    echo '<input type="text" name="' . esc_attr(JUST_BESTOW_OPTION_NAME_FETCH_URL) . '" value="' . esc_attr($value) . '" class="regular-text" />';
+    $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_FETCH_URL, ''));
+    echo '<input type="text" name="' . esc_attr(JUSTBESTOW_OPTION_NAME_FETCH_URL) . '" value="' . esc_attr($value) . '" class="regular-text" />';
   }
 
   public static function render_stripe_oauth_url_field()
   {
-    $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL, '', "https://api.justbestow.com/t2pw/connect"));
-    echo '<input type="text" name="' . esc_attr(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL) . '" value="' . esc_attr($value) . '" class="regular-text" />';
+    $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_STRIPE_OAUTH_URL, '', "https://api.justbestow.com/t2pw/connect"));
+    echo '<input type="text" name="' . esc_attr(JUSTBESTOW_OPTION_NAME_STRIPE_OAUTH_URL) . '" value="' . esc_attr($value) . '" class="regular-text" />';
   }
 
   public static function render_stripe_account_field()
   {
-    $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT, ''));
-    echo '<input type="text" name="' . esc_attr(JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT) . '" value="' . esc_attr($value) . '" class="regular-text" readonly/>';
+    $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_STRIPE_ACCOUNT, ''));
+    echo '<input type="text" name="' . esc_attr(JUSTBESTOW_OPTION_NAME_STRIPE_ACCOUNT) . '" value="' . esc_attr($value) . '" class="regular-text" readonly/>';
   }
 
   public static function render_stripe_publishable_key_field()
   {
-    $value = esc_attr(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_PUBLISHABLE_KEY, ''));
-    echo '<input type="text" name="' . esc_attr(JUST_BESTOW_OPTION_NAME_STRIPE_PUBLISHABLE_KEY) . '" value="' . esc_attr($value) . '" class="regular-text" readonly/>';
+    $value = esc_attr(get_option(JUSTBESTOW_OPTION_NAME_STRIPE_PUBLISHABLE_KEY, ''));
+    echo '<input type="text" name="' . esc_attr(JUSTBESTOW_OPTION_NAME_STRIPE_PUBLISHABLE_KEY) . '" value="' . esc_attr($value) . '" class="regular-text" readonly/>';
   }
 
 
@@ -196,37 +196,37 @@ class Just_Bestow_Settings
       isset($_GET['_stripe_account_id'])
     ) {
       update_option(
-        JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT,
+        JUSTBESTOW_OPTION_NAME_STRIPE_ACCOUNT,
         sanitize_text_field(wp_unslash($_GET['_stripe_account_id']))
       );
 
       if (isset($_GET['_client_email'])) {
         update_option(
-          JUST_BESTOW_OPTION_NAME_CLIENT_EMAIL,
+          JUSTBESTOW_OPTION_NAME_CLIENT_EMAIL,
           sanitize_email(wp_unslash($_GET['_client_email']))
         );
       }
 
       if (isset($_GET['_client_name'])) {
         update_option(
-          JUST_BESTOW_OPTION_NAME_CLIENT_NAME,
+          JUSTBESTOW_OPTION_NAME_CLIENT_NAME,
           sanitize_text_field(wp_unslash($_GET['_client_name']))
         );
       }
 
       if (isset($_GET['_client_type'])) {
         update_option(
-          JUST_BESTOW_OPTION_NAME_CLIENT_TYPE,
+          JUSTBESTOW_OPTION_NAME_CLIENT_TYPE,
           sanitize_text_field(wp_unslash($_GET['_client_type']))
         );
       }
 
-      update_option('just_bestow_show_success_notice', true);
+      update_option('justbestow_show_success_notice', true);
     }
 
 
-    $stripe_oauth_url = trim(get_option(JUST_BESTOW_OPTION_NAME_STRIPE_OAUTH_URL, ''));
-    $mode = get_option(JUST_BESTOW_OPTION_NAME_MODE);
+    $stripe_oauth_url = trim(get_option(JUSTBESTOW_OPTION_NAME_STRIPE_OAUTH_URL, ''));
+    $mode = get_option(JUSTBESTOW_OPTION_NAME_MODE);
     $is_enabled = ! empty($stripe_oauth_url);
 
     $clean_stripe_url = ltrim($stripe_oauth_url, '/');
@@ -237,8 +237,8 @@ class Just_Bestow_Settings
       isset($_POST['disconnect_stripe']) &&
       wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'disconnect_stripe_account')
     ) {
-      delete_option(JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT);
-      delete_option(JUST_BESTOW_OPTION_NAME_CLIENT_TYPE);
+      delete_option(JUSTBESTOW_OPTION_NAME_STRIPE_ACCOUNT);
+      delete_option(JUSTBESTOW_OPTION_NAME_CLIENT_TYPE);
       echo '<div class="notice notice-success is-dismissible"><p>Stripe account disconnected successfully.</p></div>';
     }
 
@@ -247,8 +247,8 @@ class Just_Bestow_Settings
       'POST' === $_SERVER['REQUEST_METHOD'] &&
       wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'change_mode')
     ) {
-      update_option(JUST_BESTOW_OPTION_NAME_MODE, sanitize_text_field(wp_unslash($_POST['mode'])));
-      $mode = get_option(JUST_BESTOW_OPTION_NAME_MODE);
+      update_option(JUSTBESTOW_OPTION_NAME_MODE, sanitize_text_field(wp_unslash($_POST['mode'])));
+      $mode = get_option(JUSTBESTOW_OPTION_NAME_MODE);
     }
 
 
@@ -256,11 +256,11 @@ class Just_Bestow_Settings
     <div class="wrap hidden">
       <h1>Just Bestow Settings</h1>
       <form method="post" action="options.php">
-        <input type="hidden" id="current-mode" value="<?php echo esc_attr(get_option(JUST_BESTOW_OPTION_NAME_MODE, 'test')); ?>" />
+        <input type="hidden" id="current-mode" value="<?php echo esc_attr(get_option(JUSTBESTOW_OPTION_NAME_MODE, 'test')); ?>" />
 
         <?php
-        settings_fields('just_bestow_settings_group');
-        do_settings_sections('just-bestow-settings');
+        settings_fields('justbestow_settings_group');
+        do_settings_sections('justbestow-settings');
         submit_button();
         ?>
       </form>
@@ -279,10 +279,10 @@ class Just_Bestow_Settings
             <h1>Just Bestow Settings</h1>
 
             <?php
-            $stripe_account = get_option(JUST_BESTOW_OPTION_NAME_STRIPE_ACCOUNT, '');
-            $mode = get_option(JUST_BESTOW_OPTION_NAME_MODE);
+            $stripe_account = get_option(JUSTBESTOW_OPTION_NAME_STRIPE_ACCOUNT, '');
+            $mode = get_option(JUSTBESTOW_OPTION_NAME_MODE);
             $stripe_connected = !empty($stripe_account);
-            if (get_option('just_bestow_show_success_notice')) {
+            if (get_option('justbestow_show_success_notice')) {
             ?>
               <div class="add-account-section connection-feedback" style="margin-bottom: 3px;">
                 <p>
@@ -356,7 +356,7 @@ class Just_Bestow_Settings
             <div class="account-card <?php echo !$stripe_connected ? 'blurred-content' : ''; ?>" id="account-content">
               <div class="account-header">
                 <span class="account-name">
-                  <?php echo esc_html(get_option(JUST_BESTOW_OPTION_NAME_CLIENT_NAME, 'Anonymouse')); ?>
+                  <?php echo esc_html(get_option(JUSTBESTOW_OPTION_NAME_CLIENT_NAME, 'Anonymouse')); ?>
                 </span>
                 <span class="checkmark"></span>
               </div>
@@ -365,7 +365,7 @@ class Just_Bestow_Settings
                 <div class="detail-row">
                   <span class="detail-label">Account email:</span>
                   <span class="detail-value">
-                    <?php echo esc_html(get_option(JUST_BESTOW_OPTION_NAME_CLIENT_EMAIL, 'not set')); ?>
+                    <?php echo esc_html(get_option(JUSTBESTOW_OPTION_NAME_CLIENT_EMAIL, 'not set')); ?>
                   </span>
                 </div>
 
@@ -377,7 +377,7 @@ class Just_Bestow_Settings
                 <div class="detail-row">
                   <span class="detail-label">Organization Type:</span>
                   <span class="detail-value" style="text-transform: uppercase;">
-                    <?php echo esc_html(get_option(JUST_BESTOW_OPTION_NAME_CLIENT_TYPE, 'not set')); ?>
+                    <?php echo esc_html(get_option(JUSTBESTOW_OPTION_NAME_CLIENT_TYPE, 'not set')); ?>
                   </span>
                 </div>
 
