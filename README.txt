@@ -19,7 +19,7 @@ You can easily display your donation form anywhere on your site using the WordPr
 == External Services ==
 This plugin relies on two external services to function properly:
 
-### Just Bestow (API + Dashboard)
+### Just Bestow 
 The plugin connects to the Just Bestow API to manage campaigns, store configuration data, and initiate donation transactions.  
 It sends data such as campaign details, configuration settings, and donation-related information only when these features are used.  
 Advanced campaign management, reporting, and customization are handled through the external Just Bestow Dashboard.
@@ -27,7 +27,7 @@ Advanced campaign management, reporting, and customization are handled through t
 - Just Bestow Terms of Service: https://ayatsolutions.com/justbestow/justbestow-terms  
 - Just Bestow Privacy Policy: https://ayatsolutions.com/justbestow/justbestow-privacy  
 
-### Stripe (Payment Processing via OAuth)
+### Stripe 
 To process donations securely, the plugin uses Stripe.  
 Administrators are redirected to Stripe’s OAuth flow to connect their Stripe account to Just Bestow.  
 All donor payment details are handled directly by Stripe — this plugin does not store or process any sensitive payment information.
