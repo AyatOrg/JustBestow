@@ -16,24 +16,18 @@ This plugin provides a clean, minimal setup experience inside WordPress while ke
 
 You can easily display your donation form anywhere on your site using the WordPress Block Editor. Simply edit any page or post, open the block selector, and search for the “Just Bestow” block. Add the block to your content, and the donation widget will automatically appear on your site using your connected Stripe account.
 
-== External Services ==
-This plugin relies on two external services to function properly:
-
-### Just Bestow 
-The plugin connects to the Just Bestow API to manage campaigns, store configuration data, and initiate donation transactions.  
-It sends data such as campaign details, configuration settings, and donation-related information only when these features are used.  
-Advanced campaign management, reporting, and customization are handled through the external Just Bestow Dashboard.
-
-- Just Bestow Terms of Service: https://ayatsolutions.com/justbestow/justbestow-terms  
-- Just Bestow Privacy Policy: https://ayatsolutions.com/justbestow/justbestow-privacy  
-
-### Stripe 
-To process donations securely, the plugin uses Stripe.  
-Administrators are redirected to Stripe’s OAuth flow to connect their Stripe account to Just Bestow.  
-All donor payment details are handled directly by Stripe — this plugin does not store or process any sensitive payment information.
-
-- Stripe Terms of Service: https://stripe.com/legal  
-- Stripe Privacy Policy: https://stripe.com/privacy  
+== External Services == 
+This plugin connects to external services to function properly. 
+ 
+Just Bestow API   
+The plugin communicates with the Just Bestow external API to manage donation campaigns, configuration settings, and donation-related data. Data is transmitted only when the plugin features are used.   
+Full Terms: https://ayatsolutions.com/just-bestow-terms-of-service
+Privacy Policy: https://ayatsolutions.com/just-bestow-privacy-policy
+ 
+Stripe   
+This plugin uses Stripe to securely process donations. All credit card and payment information is handled directly by Stripe and is never stored on our servers. 
+Stripe Terms: https://stripe.com/legal   
+Stripe Privacy: https://stripe.com/privacy    
 
 == Installation ==
 
@@ -45,3 +39,4 @@ All donor payment details are handled directly by Stripe — this plugin does no
 == Changelog ==
 = 1.0.0 =
 * Initial release
+
