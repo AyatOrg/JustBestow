@@ -7,7 +7,7 @@
  * Version:     1.0.0
  * Author:      Ayat Solutions
  * Author URI:  https://ayatsolutions.com
- * Text Domain: justbestow
+ * Text Domain: just-bestow
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -104,3 +104,4 @@ add_action('wp_head', function () {
   </script>
 <?php
 });
+
