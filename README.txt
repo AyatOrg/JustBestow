@@ -7,8 +7,8 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Short Description: Displays a donation form on your site via the block editor.
-
+Just Bestow is a secure, and user-friendly WordPress plugin that allows organizations to collect donations directly from their website using Stripe.
+ 
 == Description ==
 Just Bestow is a lightweight and efficient donation plugin designed to help organizations accept donations quickly and securely. It integrates seamlessly with Stripe using a simple onboarding process, allowing you to connect your Stripe account in minutes.
 
