@@ -1,111 +1,29 @@
-(function (blocks, element, blockEditor) {
+(function (blocks, element) {
   const el = element.createElement;
-  const RichText = blockEditor.RichText;
 
   blocks.registerBlockType("justbestow/example-block", {
     title: "Just Bestow",
     icon: "block-default",
     category: "widgets",
-    attributes: { title: { type: "string", default: "Just Bestow" } },
-    edit: function (props) {
+
+    edit: function () {
       return el(
         "div",
-        { className: "t2pw-widget" },
-        el(RichText, {
-          tagName: "h3",
-          value: props.attributes.title,
-          onChange: function (value) {
-            props.setAttributes({ title: value });
+        {
+          className: "t2pw-widget-placeholder",
+          style: {
+            padding: "16px",
+            border: "1px dashed #ccc",
+            borderRadius: "6px",
+            textAlign: "center",
           },
-          placeholder: "Enter title...",
-        }),
-        el("p", {}, "Just Bestow ")
+        },
+        "Just Bestow widget will render on the frontend."
       );
     },
-    save: function (props) {
-      return el(
-        "div",
-        { className: "t2pw-widget" },
 
-        el("script", {
-          dangerouslySetInnerHTML: {
-            __html: `
-(function () {
-  var container = document.querySelector('.t2pw-widget');
-
-  if (!container) {
-    console.error('Container element not found.');
-    showWidgetError('Oops! Something went wrong. Please try refreshing the page. If the problem continues, feel free to reach out to us at support@ayatsolutions.com for assistance.');
-    return;
-  }
-
-  if (!window.t2pw_settings || !t2pw_settings.fetchUrl) {
-    console.error('Missing fetchUrl in t2pw_settings.');
-    showWidgetError('Please configure the Just Bestow plugin correctly. If the issue persists, try reinstalling the plugin. For further assistance, contact us at support@ayatsolutions.com.');
-    return;
-  }
-
-  var url = t2pw_settings.fetchUrl;
-
-  fetch(url)
-    .then(function (res) {
-      if (!res.ok) {
-        throw new Error('HTTP error! Status: ' + res.status);
-      }
-      return res.text();
-    })
-    .then(function (html) {
-      container.innerHTML = html;
-    })
-    .then(function () {
-      executeScriptElements(container);
-    })
-    .catch(function (err) {
-      console.error('Fetch error:', err);
-      if (err.name === 'TypeError' && err.message.indexOf('Failed to fetch') !== -1) {
-        showWidgetError('You are not allowed to use this feature. Please contact support.');
-      } else {
-        showWidgetError('You are not allowed to use this feature. Please contact support@ayatsolutions.com.');
-      }
-    });
-
-  function showWidgetError(message) {
-    var errorDiv = document.createElement('div');
-    errorDiv.textContent = message;
-    
-    container.style.backgroundColor = '#fdecea';
-    container.style.justifyContent = 'center';
-    container.style.boxSizing = 'border-box';
-    container.style.position = 'relative';
-    container.style.alignItems = 'center';
-    container.style.minHeight = '150px';
-    container.style.borderRadius = '9px';
-    container.style.minWidth = '150px';
-    container.style.minHeight = '150px';
-    container.style.minWidth = '150px';
-    container.style.display = 'flex';
-    
-    container.appendChild(errorDiv);
-  }
-
-  function executeScriptElements(element) {
-    var scripts = element.querySelectorAll('script');
-    scripts.forEach(function (script) {
-      var newScript = document.createElement('script');
-      if (script.src) {
-        newScript.src = script.src;
-        newScript.async = false;
-      } else {
-        newScript.textContent = script.textContent;
-      }
-      document.head.appendChild(newScript).parentNode.removeChild(newScript);
-    });
-  }
-})();
-`,
-          },
-        })
-      );
+    save: function () {
+      return null; 
     },
   });
-})(window.wp.blocks, window.wp.element, window.wp.blockEditor || window.wp.editor);
+})(window.wp.blocks, window.wp.element);
