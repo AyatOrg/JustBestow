@@ -120,7 +120,7 @@ function justbestow_render_block()
   ob_start();
 ?>
   <div id="tap2pay-widget"></div>
-  <script src="<?php echo esc_url($fetch_url); ?>" async></script>
+  <script crossorigin="anonymous" src="<?php echo esc_url($fetch_url); ?>" async></script>
 <?php
   return ob_get_clean();
 }
