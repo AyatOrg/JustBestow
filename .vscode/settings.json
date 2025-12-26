@@ -1,4 +1,5 @@
-{"intelephense.stubs": [
+{
+  "intelephense.stubs": [
     "apache",
     "bcmath",
     "bz2",
@@ -68,5 +69,10 @@
     "Zend OPcache",
     "zip",
     "zlib",
-    "wordpress"
-]}
+    "wordpress",
+  ],
+  "cSpell.words": [
+    "Elementor",
+    "justbestow"
+  ]
+}

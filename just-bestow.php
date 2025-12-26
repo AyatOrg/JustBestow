@@ -124,3 +124,20 @@ function justbestow_render_block()
 <?php
   return ob_get_clean();
 }
+
+
+
+/* add the Elementor widget if Elementor is active */
+function justbestow_register_elementor_widget()
+{
+  if (!did_action('elementor/loaded')) {
+    /* in-case no Elementor */
+    return;
+  }
+
+  require_once JUSTBESTOW_PLUGIN_DIR . 'includes/class-justbestow-elementor-widget.php';
+
+  \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new \Justbestow_Elementor_Widget());
+}
+
+add_action('elementor/widgets/register', 'justbestow_register_elementor_widget');
