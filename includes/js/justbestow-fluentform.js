@@ -206,7 +206,13 @@
 
       entry.charge().then(
         function (transactionId) {
-          data.data += '&' + $.param({ justbestow_transaction_id: transactionId || '' });
+          // Appends payment_id onto the raw submitted field string. FluentForm itself
+          // would normally drop any key that isn't one of the form's own declared
+          // fields, but the PHP side (just-bestow.php, fluentform/insert_response_data)
+          // reads this directly out of $_POST and saves it into the entry's response
+          // data regardless - no form setup needed for this to show up as a
+          // back-reference to the donation transaction.
+          data.data += '&' + $.param({ payment_id: transactionId || '' });
           originalPost.call($, url, data).then(deferred.resolve, deferred.reject);
         },
         function (message) {
