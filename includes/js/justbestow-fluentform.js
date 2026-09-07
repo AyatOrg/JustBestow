@@ -43,6 +43,10 @@
     var submitBtn = form.querySelector('.ff-btn-submit');
     var amountField = form.querySelector('.ff_payment_item');
     var emailField = form.querySelector('input[type="email"]');
+    // FluentForm's "Name" field is composite - sub-inputs are named
+    // "<root>[first_name]" / "<root>[last_name]".
+    var firstNameField = form.querySelector('input[name$="[first_name]"]');
+    var lastNameField = form.querySelector('input[name$="[last_name]"]');
 
     setSubmitState(submitBtn, true);
 
@@ -58,6 +62,12 @@
       }
     }
 
+    function syncName() {
+      if (!window.JustBestowWidget) return;
+      if (firstNameField) window.JustBestowWidget.setFirstName(firstNameField.value);
+      if (lastNameField) window.JustBestowWidget.setLastName(lastNameField.value);
+    }
+
     waitFor(
       function () {
         return window.JustBestowWidget && typeof window.JustBestowWidget.onReady === 'function';
@@ -71,9 +81,12 @@
         window.JustBestowWidget.onReady(function () {
           syncAmount();
           syncEmail();
+          syncName();
 
           if (amountField) amountField.addEventListener('input', syncAmount);
           if (emailField) emailField.addEventListener('input', syncEmail);
+          if (firstNameField) firstNameField.addEventListener('input', syncName);
+          if (lastNameField) lastNameField.addEventListener('input', syncName);
 
           wrapper.classList.add('jb-ff-ready');
           setSubmitState(submitBtn, false);
