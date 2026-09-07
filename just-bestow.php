@@ -187,7 +187,7 @@ function justbestow_enqueue_fluentform_assets()
   wp_enqueue_script(
     'justbestow-fluentform',
     JUSTBESTOW_PLUGIN_URL . 'includes/js/justbestow-fluentform.js',
-    [],
+    ['jquery'],
     filemtime(JUSTBESTOW_PLUGIN_DIR . 'includes/js/justbestow-fluentform.js'),
     true
   );

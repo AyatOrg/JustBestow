@@ -84,7 +84,10 @@ class Justbestow_FluentForm_Field extends BaseFieldManager
       ArrayHelper::except($data['attributes'], 'name')
     );
 
-    $widgetContent = '<div class="jb-widget-loader">' . esc_html__('Loading payment form…', 'just-bestow') . '</div>'
+    $widgetContent = '<div class="jb-widget-loader" aria-busy="true" aria-label="' . esc_attr__('Loading payment form…', 'just-bestow') . '">'
+      . '<span class="jb-skeleton-line jb-skeleton-toggle"></span>'
+      . '<span class="jb-skeleton-line jb-skeleton-card"></span>'
+      . '</div>'
       . justbestow_get_widget_markup();
 
     $html = "<div class='" . esc_attr($cls) . "' tabindex='-1' {$atts}>{$widgetContent}</div>";
