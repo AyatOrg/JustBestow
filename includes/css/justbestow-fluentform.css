@@ -1,0 +1,23 @@
+/* Just Bestow inside a FluentForm form: hide the widget's own header/back
+   button, donation summary, its own Donate button, and Express Checkout
+   (Apple Pay/Link) - FluentForm's own submit button is the single path to
+   pay. Keep the transaction-fee toggle and card fields visible. */
+
+.jb-ff-widget .widget-card-header,
+.jb-ff-widget .widget-summary,
+.jb-ff-widget #widget-next-button,
+.jb-ff-widget #widget-back-button,
+.jb-ff-widget #widget-express-checkout,
+.jb-ff-widget #widget-payment-divider {
+  display: none !important;
+}
+
+.jb-ff-widget .jb-widget-loader {
+  padding: 12px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.jb-ff-widget.jb-ff-ready .jb-widget-loader {
+  display: none;
+}

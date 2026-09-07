@@ -103,9 +103,10 @@ add_action('init', 'justbestow_register_block');
 
 
 /**
- * Render block output (frontend)
+ * Build the widget container + loader script markup.
+ * Shared by the Gutenberg block, the Elementor widget, and the FluentForm field.
  */
-function justbestow_render_block()
+function justbestow_get_widget_markup($container_id = 'tap2pay-widget')
 {
 
   $fetch_url = get_option(
@@ -119,10 +120,18 @@ function justbestow_render_block()
 
   ob_start();
 ?>
-  <div id="tap2pay-widget"></div>
+  <div id="<?php echo esc_attr($container_id); ?>"></div>
   <script crossorigin="anonymous" src="<?php echo esc_url($fetch_url); ?>" async></script>
 <?php
   return ob_get_clean();
+}
+
+/**
+ * Render block output (frontend)
+ */
+function justbestow_render_block()
+{
+  return justbestow_get_widget_markup();
 }
 
 
@@ -141,3 +150,46 @@ function justbestow_register_elementor_widget()
 }
 
 add_action('elementor/widgets/register', 'justbestow_register_elementor_widget');
+
+/**
+ * Register the "Just Bestow Donation" field for FluentForm, if FluentForm is active.
+ */
+function justbestow_register_fluentform_field()
+{
+  if (!class_exists('\FluentForm\App\Services\FormBuilder\BaseFieldManager')) {
+    /* FluentForm is not installed/active. */
+    return;
+  }
+
+  require_once JUSTBESTOW_PLUGIN_DIR . 'includes/class-justbestow-fluentform-field.php';
+
+  new Justbestow_FluentForm_Field();
+}
+add_action('plugins_loaded', 'justbestow_register_fluentform_field', 20);
+
+/**
+ * Enqueue the FluentForm glue script/style on the frontend.
+ * Both are cheap no-ops on pages without a Just Bestow field.
+ */
+function justbestow_enqueue_fluentform_assets()
+{
+  if (!class_exists('\FluentForm\App\Services\FormBuilder\BaseFieldManager')) {
+    return;
+  }
+
+  wp_enqueue_style(
+    'justbestow-fluentform',
+    JUSTBESTOW_PLUGIN_URL . 'includes/css/justbestow-fluentform.css',
+    [],
+    filemtime(JUSTBESTOW_PLUGIN_DIR . 'includes/css/justbestow-fluentform.css')
+  );
+
+  wp_enqueue_script(
+    'justbestow-fluentform',
+    JUSTBESTOW_PLUGIN_URL . 'includes/js/justbestow-fluentform.js',
+    [],
+    filemtime(JUSTBESTOW_PLUGIN_DIR . 'includes/js/justbestow-fluentform.js'),
+    true
+  );
+}
+add_action('wp_enqueue_scripts', 'justbestow_enqueue_fluentform_assets');
