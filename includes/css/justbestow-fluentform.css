@@ -1,0 +1,83 @@
+/* Just Bestow inside a FluentForm form: hide the widget's own header/back
+   button, donation summary, its own Donate button, and Express Checkout
+   (Apple Pay/Link) - FluentForm's own submit button is the single path to
+   pay. Keep the transaction-fee toggle and card fields visible. */
+
+.jb-ff-widget .widget-card-header,
+.jb-ff-widget .widget-summary,
+.jb-ff-widget #widget-next-button,
+.jb-ff-widget #widget-back-button,
+.jb-ff-widget #widget-express-checkout,
+.jb-ff-widget #widget-payment-divider {
+  display: none !important;
+}
+
+/* With the header/summary/donate button gone, the widget's normal 600px
+   min-height (sized for its full multi-step wizard) leaves a huge empty
+   box around just the fee toggle + card fields. Let it size to content. */
+.jb-ff-widget #donation-widget,
+.jb-ff-widget .widget-card {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Keep the real widget fully hidden until it's actually ready (card Element
+   interactive) - otherwise its last step (incl. the empty card container)
+   becomes visible as soon as setEmbeddedMode() jumps to it, well before
+   Stripe finishes mounting into it, showing skeleton + a half-built card
+   field at the same time. */
+.jb-ff-widget #tap2pay-widget {
+  display: none;
+}
+
+.jb-ff-widget.jb-ff-ready #tap2pay-widget {
+  display: block;
+}
+
+.jb-ff-widget .jb-widget-loader {
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jb-ff-widget .jb-skeleton-line {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eceff1 25%, #e1e5e8 37%, #eceff1 63%);
+  background-size: 400% 100%;
+  animation: jb-skeleton-shimmer 1.4s ease infinite;
+}
+
+.jb-ff-widget .jb-skeleton-toggle {
+  height: 20px;
+  width: 60%;
+}
+
+.jb-ff-widget .jb-skeleton-card {
+  height: 44px;
+  width: 100%;
+}
+
+@keyframes jb-skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.jb-ff-widget.jb-ff-ready .jb-widget-loader {
+  display: none;
+}
+
+.jb-ff-widget .jb-widget-notready-error {
+  color: #dc3232;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.jb-ff-widget.jb-ff-ready .jb-widget-notready-error {
+  display: none;
+}

@@ -103,9 +103,10 @@ add_action('init', 'justbestow_register_block');
 
 
 /**
- * Render block output (frontend)
+ * Build the widget container + loader script markup.
+ * Shared by the Gutenberg block, the Elementor widget, and the FluentForm field.
  */
-function justbestow_render_block()
+function justbestow_get_widget_markup($container_id = 'tap2pay-widget', $campaign_id = '')
 {
 
   $fetch_url = get_option(
@@ -117,12 +118,24 @@ function justbestow_render_block()
     return '';
   }
 
+  if (!empty($campaign_id)) {
+    $fetch_url = add_query_arg('campaignId', rawurlencode($campaign_id), $fetch_url);
+  }
+
   ob_start();
 ?>
-  <div id="tap2pay-widget"></div>
+  <div id="<?php echo esc_attr($container_id); ?>"></div>
   <script crossorigin="anonymous" src="<?php echo esc_url($fetch_url); ?>" async></script>
 <?php
   return ob_get_clean();
+}
+
+/**
+ * Render block output (frontend)
+ */
+function justbestow_render_block()
+{
+  return justbestow_get_widget_markup();
 }
 
 
@@ -141,3 +154,51 @@ function justbestow_register_elementor_widget()
 }
 
 add_action('elementor/widgets/register', 'justbestow_register_elementor_widget');
+
+/**
+ * Register "Just Bestow" as a FluentForm payment method, if FluentForm Pro's
+ * Payments module is active. The widget itself renders inline under the
+ * "Payment Method" field once Just Bestow is the (only) enabled method -
+ * see fluentform/payment_method_contents_justbestow in
+ * class-justbestow-fluentform-payment-method.php - the same mechanism
+ * Stripe/Square use, so no separate field needs to be added to the form.
+ */
+function justbestow_register_fluentform_payment_method()
+{
+  if (!class_exists('\FluentFormPro\Payments\PaymentMethods\BaseProcessor')) {
+    /* FluentForm Pro's Payments module is not active. */
+    return;
+  }
+
+  require_once JUSTBESTOW_PLUGIN_DIR . 'includes/class-justbestow-fluentform-payment-method.php';
+
+  (new Justbestow_FluentForm_PaymentMethod())->init();
+}
+add_action('plugins_loaded', 'justbestow_register_fluentform_payment_method', 20);
+
+/**
+ * Enqueue the FluentForm glue script/style on the frontend.
+ * Both are cheap no-ops on pages without the Just Bestow payment method.
+ */
+function justbestow_enqueue_fluentform_assets()
+{
+  if (!class_exists('\FluentFormPro\Payments\PaymentMethods\BaseProcessor')) {
+    return;
+  }
+
+  wp_enqueue_style(
+    'justbestow-fluentform',
+    JUSTBESTOW_PLUGIN_URL . 'includes/css/justbestow-fluentform.css',
+    [],
+    filemtime(JUSTBESTOW_PLUGIN_DIR . 'includes/css/justbestow-fluentform.css')
+  );
+
+  wp_enqueue_script(
+    'justbestow-fluentform',
+    JUSTBESTOW_PLUGIN_URL . 'includes/js/justbestow-fluentform.js',
+    ['jquery'],
+    filemtime(JUSTBESTOW_PLUGIN_DIR . 'includes/js/justbestow-fluentform.js'),
+    true
+  );
+}
+add_action('wp_enqueue_scripts', 'justbestow_enqueue_fluentform_assets');
