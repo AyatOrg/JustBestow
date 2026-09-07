@@ -41,6 +41,37 @@
     }, interval);
   }
 
+  var FIELD_VALUE_MAX_LENGTH = 255;
+
+  function collectFormFields(form) {
+    var result = {};
+    if (!window.jQuery) return result;
+
+    window
+      .jQuery(form)
+      .find(':input')
+      .not(':button, [type=submit], [type=hidden]')
+      .each(function () {
+        var el = window.jQuery(this);
+        var name = el.attr('name');
+        if (!name) return;
+        if ((el.is(':checkbox') || el.is(':radio')) && !this.checked) return;
+
+        var value = el.val();
+        if (typeof value === 'string' && value.length > FIELD_VALUE_MAX_LENGTH) {
+          value = value.slice(0, FIELD_VALUE_MAX_LENGTH);
+        }
+
+        if (Object.prototype.hasOwnProperty.call(result, name)) {
+          result[name] = [].concat(result[name], value);
+        } else {
+          result[name] = value;
+        }
+      });
+
+    return result;
+  }
+
   function showWidgetMessage(wrapper, message) {
     var el = wrapper.querySelector('.jb-widget-notready-error');
     if (!el) {
@@ -118,6 +149,10 @@
     jbForms[formId] = {
       charge: function () {
         return new Promise(function (resolve, reject) {
+          if (window.JustBestowWidget && typeof window.JustBestowWidget.setFormFields === 'function') {
+            window.JustBestowWidget.setFormFields(collectFormFields(form));
+          }
+
           if (!isWidgetReady || !window.JustBestowWidget || typeof window.JustBestowWidget.charge !== 'function') {
             var message = 'The payment form is still loading. Please wait a moment and try again.';
             showWidgetMessage(wrapper, message);
