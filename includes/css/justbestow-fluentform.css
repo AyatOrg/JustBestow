@@ -21,6 +21,13 @@
   height: auto !important;
 }
 
+/* The standalone widget caps itself at 800px wide (sized for its own
+   multi-step card layout) - inside a form field it should just fill
+   whatever width the form gives it instead. */
+.jb-ff-widget #donation-widget {
+  max-width: none !important;
+}
+
 /* Keep the real widget fully hidden until it's actually ready (card Element
    interactive) - otherwise its last step (incl. the empty card container)
    becomes visible as soon as setEmbeddedMode() jumps to it, well before
