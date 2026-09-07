@@ -21,6 +21,19 @@
   height: auto !important;
 }
 
+/* Keep the real widget fully hidden until it's actually ready (card Element
+   interactive) - otherwise its last step (incl. the empty card container)
+   becomes visible as soon as setEmbeddedMode() jumps to it, well before
+   Stripe finishes mounting into it, showing skeleton + a half-built card
+   field at the same time. */
+.jb-ff-widget #tap2pay-widget {
+  display: none;
+}
+
+.jb-ff-widget.jb-ff-ready #tap2pay-widget {
+  display: block;
+}
+
 .jb-ff-widget .jb-widget-loader {
   padding: 8px 0;
   display: flex;
