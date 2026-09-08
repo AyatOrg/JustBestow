@@ -106,7 +106,7 @@ add_action('init', 'justbestow_register_block');
  * Build the widget container + loader script markup.
  * Shared by the Gutenberg block, the Elementor widget, and the FluentForm field.
  */
-function justbestow_get_widget_markup($container_id = 'tap2pay-widget', $campaign_id = '')
+function justbestow_get_widget_markup($container_id = 'tap2pay-widget', $campaign_id = '', $extra_query_args = [])
 {
 
   $fetch_url = get_option(
@@ -120,6 +120,10 @@ function justbestow_get_widget_markup($container_id = 'tap2pay-widget', $campaig
 
   if (!empty($campaign_id)) {
     $fetch_url = add_query_arg('campaignId', rawurlencode($campaign_id), $fetch_url);
+  }
+
+  if (!empty($extra_query_args)) {
+    $fetch_url = add_query_arg(array_map('rawurlencode', $extra_query_args), $fetch_url);
   }
 
   ob_start();

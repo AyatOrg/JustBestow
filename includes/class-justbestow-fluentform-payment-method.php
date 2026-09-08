@@ -127,7 +127,14 @@ class Justbestow_FluentForm_PaymentMethod extends BasePaymentMethod
 
     $campaignId = ArrayHelper::get($method, 'settings.campaign_id.value', '');
 
-    return $content . '<div class="jb-ff-widget">' . $loader . justbestow_get_widget_markup('tap2pay-widget', $campaignId) . '</div>';
+    /* Lets the server tell which site/form a FluentForm-driven widget load is
+     * for, since fluentform can be embedded on multiple domains/forms. */
+    $extraArgs = [
+      'domain' => wp_parse_url(home_url(), PHP_URL_HOST),
+      'formId' => $form->id ?? '',
+    ];
+
+    return $content . '<div class="jb-ff-widget">' . $loader . justbestow_get_widget_markup('tap2pay-widget', $campaignId, $extraArgs) . '</div>';
   }
 }
 
