@@ -72,6 +72,10 @@
     return result;
   }
 
+  function isElementVisible(el) {
+    return !!(el && (el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+  }
+
   function showWidgetMessage(wrapper, message) {
     var el = wrapper.querySelector('.jb-widget-notready-error');
     if (!el) {
@@ -147,6 +151,7 @@
     if (!formId) return;
 
     jbForms[formId] = {
+      wrapper: wrapper,
       charge: function () {
         return new Promise(function (resolve, reject) {
           if (window.JustBestowWidget && typeof window.JustBestowWidget.setFormFields === 'function') {
@@ -196,9 +201,30 @@
     var originalPost = $.post;
 
     $.post = function (url, data) {
-      var entry = data && typeof data === 'object' && data.action === 'fluentform_submit' && jbForms[String(data.form_id)];
+      var isFluentFormSubmit = data && typeof data === 'object' && data.action === 'fluentform_submit';
+      var entry = isFluentFormSubmit && jbForms[String(data.form_id)];
 
       if (!entry) {
+        return originalPost.apply($, arguments);
+      }
+
+      // The Payment Method field can be hidden by FluentForm's own Conditional
+      // Logic (e.g. "Would you like to pay online?" = No) - FluentForm's PHP
+      // side already skips payment entirely when that happens (selectedPaymentMethod
+      // stays empty), so we must match that here. Checking the submitted
+      // payment_method value alone isn't reliable (it's rendered as a plain
+      // hidden input when Just Bestow is the only method, and that doesn't
+      // always get excluded from serialization the same way a visible field
+      // does), so also check the widget's own on-screen visibility directly -
+      // if its container is actually hidden, this isn't a Just Bestow donation.
+      var selectedMethod = '';
+      try {
+        selectedMethod = new URLSearchParams(data.data || '').get('payment_method');
+      } catch (e) {
+        selectedMethod = '';
+      }
+
+      if (selectedMethod !== 'justbestow' || !isElementVisible(entry.wrapper)) {
         return originalPost.apply($, arguments);
       }
 
@@ -206,12 +232,9 @@
 
       entry.charge().then(
         function (transactionId) {
-          // Appends payment_id onto the raw submitted field string. FluentForm itself
-          // would normally drop any key that isn't one of the form's own declared
-          // fields, but the PHP side (just-bestow.php, fluentform/insert_response_data)
-          // reads this directly out of $_POST and saves it into the entry's response
-          // data regardless - no form setup needed for this to show up as a
-          // back-reference to the donation transaction.
+          // Appends payment_id onto the raw submitted field string. The PHP-side
+          // processor (Justbestow_FluentForm_Processor) reads it directly out of
+          // $_POST and saves it as the transaction's charge_id.
           data.data += '&' + $.param({ payment_id: transactionId || '' });
           originalPost.call($, url, data).then(deferred.resolve, deferred.reject);
         },

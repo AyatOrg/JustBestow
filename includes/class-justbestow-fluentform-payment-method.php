@@ -3,25 +3,41 @@
 defined('ABSPATH') || exit;
 
 use FluentFormPro\Payments\PaymentMethods\BaseProcessor;
+use FluentFormPro\Payments\PaymentMethods\BasePaymentMethod;
 use FluentForm\Framework\Helpers\ArrayHelper;
 
 /**
  * Registers "Just Bestow" as a selectable FluentForm payment method (mirrors
- * fluentformpro's own Offline gateway, the simplest existing reference) so
- * FluentForm's native payment status, method label, and transaction records
- * work correctly for donations made through the Just Bestow widget field.
+ * fluentformpro's own RazorPay gateway, a real example that - unlike Offline
+ * or the per-form-only registration this used to do - also extends
+ * BasePaymentMethod) so it shows up on FluentForm's global Settings ->
+ * Payment Settings screen with its own enable/disable toggle, the same way
+ * Stripe/PayPal/RazorPay etc. do, in addition to FluentForm's native payment
+ * status, method label, and transaction records working correctly for
+ * donations made through the Just Bestow widget.
  *
  * The actual card charge already happens client-side via the widget's own
  * JS (see includes/js/justbestow-fluentform.js) before FluentForm's own
  * submission AJAX call is even allowed through - this class only records
  * that already-completed outcome into FluentForm's own payment system.
  */
-class Justbestow_FluentForm_PaymentMethod
+class Justbestow_FluentForm_PaymentMethod extends BasePaymentMethod
 {
-  protected $key = 'justbestow';
+  public function __construct()
+  {
+    parent::__construct('justbestow');
+  }
 
   public function init()
   {
+    /* Registering fluentform/payment_method_settings_validation_{key} isn't
+     * required (Just Bestow's global settings are just the enable toggle,
+     * nothing to validate), matching how fluentformpro's own Offline gateway
+     * skips it too. */
+    if (!$this->isEnabled()) {
+      return;
+    }
+
     add_filter('fluentform/available_payment_methods', [$this, 'pushPaymentMethodToForm']);
 
     add_filter('fluentform/payment_method_public_name_' . $this->key, function () {
@@ -35,6 +51,44 @@ class Justbestow_FluentForm_PaymentMethod
     add_filter('fluentform/payment_method_contents_' . $this->key, [$this, 'renderWidgetContent'], 10, 4);
 
     (new Justbestow_FluentForm_Processor())->init();
+  }
+
+  public function isEnabled()
+  {
+    $settings = $this->getGlobalSettings();
+    return ArrayHelper::get($settings, 'is_active') === 'yes';
+  }
+
+  /**
+   * The global Settings -> Payment Settings screen builds one settings tab
+   * per key present here (fluentform/payment_methods_global_settings, wired
+   * by BasePaymentMethod's constructor) - "label" is the tab title, "fields"
+   * is rendered generically by FluentForm's own settings-builder component.
+   */
+  public function getGlobalFields()
+  {
+    return [
+      'label'  => __('Just Bestow', 'just-bestow'),
+      'fields' => [
+        [
+          'settings_key'   => 'is_active',
+          'type'           => 'yes-no-checkbox',
+          'label'          => __('Status', 'just-bestow'),
+          'checkbox_label' => __('Enable Just Bestow Payment Method', 'just-bestow'),
+        ],
+      ],
+    ];
+  }
+
+  public function getGlobalSettings()
+  {
+    $defaults = [
+      'is_active' => 'no',
+    ];
+
+    $settings = get_option($this->settingsKey, []);
+
+    return wp_parse_args($settings, $defaults);
   }
 
   public function pushPaymentMethodToForm($methods)
