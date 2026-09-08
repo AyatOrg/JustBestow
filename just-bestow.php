@@ -4,7 +4,7 @@
  * Plugin Name: Just Bestow
  * Plugin URI:  https://ayatsolutions.com/justbestow
  * Description: Display JustBestow donation form on your WordPress site. Adds a block and a simple shortcode.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Ayat Solutions
  * Author URI:  https://ayatsolutions.com
  * Text Domain: just-bestow
